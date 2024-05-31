@@ -1,0 +1,105 @@
+Declaration of a lhs-variable for a simple assignment
+Before 7.40
+
+DATA text TYPE string.
+text = `...`.
+
+With 7.40
+
+DATA(text) = `...`.
+
+Declaration of table work areas
+Before 7.40
+
+DATA wa like LINE OF itab.
+LOOP AT itab INTO wa.  
+  ...
+ENDLOOP.
+
+With 7.40
+
+LOOP AT itab INTO DATA(wa).  
+  ...
+ENDLOOP.
+
+Declaration of a helper variable
+Before 7.40
+
+DATA cnt TYPE i.
+FIND ... IN ... MATCH COUNT cnt.
+
+With 7.40
+
+FIND ... IN ... MATCH COUNT DATA(cnt).
+
+Declaration of a result
+Before 7.40
+
+DATA xml TYPE xstring.
+CALL TRANSFORMATION ... RESULT XML xml.
+
+With 7.40
+
+CALL TRANSFORMATION ... RESULT XML DATA(xml).
+
+Declaration of actual parameters
+Before 7.40
+
+DATA a1 TYPE ...
+
+DATA a2 TYPE ...
+
+oref->meth( IMPORTING p1 = a1
+
+            IMPORTING p2 = a2
+
+            ... )
+
+With 7.40
+
+oref->meth( IMPORTING p1 = DATA(a1)
+
+            IMPORTING p2 = DATA(a2)
+
+            ... ).
+
+Declaration of reference variables for factory methods
+Before 7.40
+
+DATA ixml           TYPE REF TO if_ixml.
+DATA stream_factory TYPE REF TO if_ixml_stream_factory.
+DATA document       TYPE REF TO if_ixml_document.
+
+ixml           = cl_ixml=>create( ).
+stream_factory = ixml->create_stream_factory( ).
+document       = ixml->create_document( ).
+
+With 7.40
+
+DATA(ixml)           = cl_ixml=>create( ).
+DATA(stream_factory) = ixml->create_stream_factory( ).
+DATA(document)       = ixml->create_document( ).
+
+This example is my favorite. When working with class libraries as the iXML-Library you don't have to care about the data type of the reference variables too much any more. You simply create them inline and use them. As you will see in the 7.40 version of the ABAP Example Library, this feature has facilitated my writings of example programs considerably.
+
+ 
+
+Field Symbols
+For field symbols there is the new declaration operator FIELD-SYMBOL(...) that you can use at exactly three declaration positions.
+
+ASSIGN ... TO FIELD-SYMBOL(<fs>).
+
+LOOP AT itab ASSIGNING FIELD-SYMBOL(<line>).
+...
+ENDLOOP.
+
+READ TABLE itab ASSIGNING FIELD-SYMBOL(<line>) ...
+
+I guess it is clear to you what happens here.
+
+Outlook
+In my upcoming blogs I will make use of inline declarations when introducing other new features. Be prepared for code like this:
+
+TYPES t_itab TYPE TABLE OF i WITH EMPTY KEY.
+
+DATA(itab) = VALUE t_itab( ( 1 ) ( 2 ) ( 3 ) ).
