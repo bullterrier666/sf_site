@@ -103,3 +103,5 @@ In my upcoming blogs I will make use of inline declarations when introducing oth
 TYPES t_itab TYPE TABLE OF i WITH EMPTY KEY.
 
 DATA(itab) = VALUE t_itab( ( 1 ) ( 2 ) ( 3 ) ).
+
+Примеры inline declaration ABAP
