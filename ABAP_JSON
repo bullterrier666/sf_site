@@ -1,4 +1,5 @@
-REPORT demo_asjson_tables.
+"Пример с использованием локального класса
+REPORT demo_asjson_tables. "Some changes in fi
 
 CLASS demo DEFINITION.
   PUBLIC SECTION.
